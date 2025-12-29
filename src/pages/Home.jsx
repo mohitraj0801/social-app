@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Routes, Route, Navigate, Link, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import News from "./News";
 import SocialFeed from "./SocialFeed";
@@ -9,87 +9,86 @@ export default function Home() {
   const location = useLocation();
 
   return (
-    // Updated background to a very soft gradient for an "elegant" feel
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-50 via-white to-gray-100">
-      
-      {/* Header stays at the top with a glass effect */}
-      <Header onProfileClick={() => setProfileOpen(true)} />
+    <div className="min-h-screen relative bg-[#f8fafc] overflow-x-hidden">
+      {/* Decorative Blobs - Yeh whitespace ko "designed" dikhayenge */}
+      <div className="absolute top-0 -left-10 w-80 h-80 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse"></div>
+      <div className="absolute top-20 -right-10 w-80 h-80 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse delay-700"></div>
+      <div className="absolute -bottom-20 left-20 w-96 h-96 bg-pink-50 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse delay-1000"></div>
 
-      <main className="max-w-4xl mx-auto px-6 py-10">
-        {/* Breadcrumb or Page Indicator (Optional but adds elegance) */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 capitalize">
-            {location.pathname.split("/").pop()}
-          </h1>
-          <p className="text-slate-500 text-sm mt-1">Stay updated with what's happening around you.</p>
-        </div>
+      <div className="relative z-10">
+        <Header onProfileClick={() => setProfileOpen(true)} />
 
-        <Routes>
-          <Route path="/" element={<Navigate to="news" replace />} />
-          <Route path="news" element={<News />} />
-          <Route path="feed" element={<SocialFeed />} />
-        </Routes>
-      </main>
+        <main className="max-w-5xl mx-auto px-6 py-10">
+          {/* Header Section */}
+          <div className="mb-10">
+            <h1 className="text-4xl font-black tracking-tight text-slate-900 capitalize">
+              {location.pathname.split("/").pop()}
+            </h1>
+            <p className="text-slate-500 text-sm mt-2 font-medium">
+              Stay updated with what's happening around you.
+            </p>
+          </div>
 
-      {/* --- Elegant Side Drawer --- */}
-      {profileOpen && (
-        <div className="fixed inset-0 z-50 flex overflow-hidden">
-          {/* Backdrop with blur */}
-          <div 
-            className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm transition-opacity" 
-            onClick={() => setProfileOpen(false)}
-          ></div>
+          <Routes>
+            <Route path="/" element={<Navigate to="news" replace />} />
+            <Route path="news" element={<News />} />
+            <Route path="feed" element={<SocialFeed />} />
+          </Routes>
+        </main>
 
-          {/* Drawer Content */}
-          <div className="relative w-full max-w-xs bg-white shadow-2xl flex flex-col h-full transform transition-transform duration-300 ease-in-out">
-            <div className="p-6 border-b border-gray-100">
-              <div className="flex items-center justify-between mb-8">
-                <span className="text-sm font-semibold text-gray-400 uppercase tracking-widest">Account</span>
-                <button 
-                  onClick={() => setProfileOpen(false)} 
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                >
-                  ✕
+        {/* --- Side Drawer --- */}
+        {profileOpen && (
+          <div className="fixed inset-0 z-50 flex overflow-hidden">
+            <div 
+              className="absolute inset-0 bg-slate-900/30 backdrop-blur-sm transition-opacity" 
+              onClick={() => setProfileOpen(false)}
+            ></div>
+
+            <div className="relative w-full max-w-xs bg-white shadow-2xl flex flex-col h-full">
+              <div className="p-8 border-b border-slate-50">
+                <div className="flex items-center justify-between mb-8">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Account</span>
+                  <button onClick={() => setProfileOpen(false)} className="p-2 hover:bg-slate-50 rounded-full text-slate-400">✕</button>
+                </div>
+
+                <div className="flex items-center space-x-4">
+                  <div className="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-indigo-100">
+                    M
+                  </div>
+                  <div>
+                    <div className="font-bold text-slate-800">Mohit Raj</div>
+                    <div className="text-xs text-indigo-500 font-semibold">@mohitraj</div>
+                  </div>
+                </div>
+              </div>
+
+              <nav className="flex-1 p-4 space-y-2 mt-4">
+                <DrawerItem icon="👤" label="Profile" />
+                <DrawerItem icon="⚙️" label="Settings" />
+                <DrawerItem icon="🔔" label="Notifications" />
+                <div className="my-6 border-t border-slate-50"></div>
+                <button className="w-full flex items-center space-x-4 px-5 py-3 rounded-2xl text-rose-500 hover:bg-rose-50 transition-all font-bold text-sm">
+                  <span>🚪</span>
+                  <span>Logout</span>
                 </button>
+              </nav>
+
+              <div className="p-8 bg-slate-50/50 text-[10px] text-center text-slate-400 font-bold uppercase tracking-widest">
+                Zero v1.0.4 • 2025
               </div>
-
-              <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-indigo-200">
-                  M
-                </div>
-                <div>
-                  <div className="font-bold text-lg text-slate-800">Mohit Raj</div>
-                  <div className="text-sm text-indigo-500 font-medium">@mohitraj</div>
-                </div>
-              </div>
-            </div>
-
-            <nav className="flex-1 p-4 space-y-1">
-              <DrawerItem icon="👤" label="Profile" />
-              <DrawerItem icon="⚙️" label="Settings" />
-              <DrawerItem icon="🔔" label="Notifications" />
-              <div className="my-4 border-t border-gray-50"></div>
-              <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 transition-colors font-medium">
-                <span>🚪</span>
-                <span>Logout</span>
-              </button>
-            </nav>
-
-            <div className="p-6 bg-slate-50 text-xs text-center text-gray-400">
-              Zero v1.0.4 • 2025
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
 
-// Helper component for clean sidebar items
+// Fixed DrawerItem Component
 function DrawerItem({ icon, label }) {
   return (
-    <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-indigo-600 transition-all font-medium">
-      <span className="text-lg">{icon}</span>
+    <button className="w-full flex items-center space-x-4 px-5 py-3.5 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-indigo-600 transition-all font-bold text-sm">
+      <span className="text-xl">{icon}</span>
       <span>{label}</span>
     </button>
   );
